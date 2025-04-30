@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .routers import index as indexRoute
 from .models import model_loader
 from .dependencies.config import conf
+from .routers import trip_planner
 
 
 app = FastAPI()
@@ -18,8 +19,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-model_loader.index()
+app.include_router(trip_planner.router)
 indexRoute.load_routes(app)
+
+model_loader.index()
 
 
 if __name__ == "__main__":
